@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import at.favre.lib.crypto.bcrypt.BCrypt;
 
+import java.math.BigDecimal;
+
 @Entity
 @Data
 @Builder
@@ -23,6 +25,7 @@ public class Users {
     private String imageUrl;
     private String password;
     private String fullName;
+    private BigDecimal balance;
 
 
     public Users(UsersDTO usersDTO) {
@@ -30,5 +33,6 @@ public class Users {
         this.password =  BCrypt.withDefaults()
                 .hashToString(12, usersDTO.getPassword().toCharArray());
         this.fullName = usersDTO.getFullName();
+        this.balance = new BigDecimal(2500000);
     }
 }

@@ -7,5 +7,18 @@
 <body>
 Welcome <p th:text="${userID}"></p>
 
+
+<table>
+    <div th:text="${cartItems}"></div>
+    <thead><td>Product Name</td><td>Categories</td><td>Price</td><td>Quantity</td><td>Add cart</td></thead>
+    <tr th:each="product: ${products}">
+        <td th:text="${product.productName}"></td>
+        <td th:text="${product.categories}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.quantity}"></td>
+        <td ><a th:href="@{/products/add-cart(cart=${product.id})}">Add to cart</a></td>
+    </tr>
+    <a href="/products/payment">Proceed checkout</a>
+</table>
 </body>
 </html>

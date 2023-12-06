@@ -54,8 +54,7 @@ public class UsersController {
                         .build())){
             HttpSession session = request.getSession();
             session.setAttribute("userID", user.getId());
-            model.addAttribute("userID", session.getAttribute( "userID"));
-            return "dashboard";
+            return "redirect:/products/all";
         }
         return "redirect:/user/login";
     }
