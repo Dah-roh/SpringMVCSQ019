@@ -39,22 +39,33 @@ public class ProductController {
         List<Product> productList = productService.findAllProducts.get();
         return new ModelAndView("dashboard")
                 .addObject("products", productList)
+                .addObject("cartItems", "");
+    }
+    @GetMapping("/all-cart")
+    public ModelAndView viewAllProductsAndCarts(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        List<Product> productList = productService.findAllProducts.get();
+        return new ModelAndView("dashboard")
+                .addObject("products", productList)
                 .addObject("cartItems", "Cart Items: "+session.getAttribute("cartItems"));
     }
 
     @GetMapping("/add-cart")
-    public String addToCart(@RequestParam(name = "cart") Long id, HttpServletRequest request, Model model){
+    public String addToCart(@RequestParam(name = "cart") Long id, HttpServletRequest request){
         productService.addProductToCart(id, request);
-        return "redirect:/products/all";
+        return "redirect:/products/all-cart";
     }
 
 
 
     @GetMapping("/payment")
     public String checkOut(HttpSession session, Model model){
-        productService.checkOutCart(session, model);
-        model.addAttribute("paid", "");
-        return "checkout";
+        if (session.getAttribute("userID")!=null) {
+            productService.checkOutCart(session, model);
+            model.addAttribute("paid", "");
+            return "checkout";
+        }
+        return "redirect:/user/login-payment";
     }
 
     @GetMapping("/pay")

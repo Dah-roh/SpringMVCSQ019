@@ -6,6 +6,7 @@ import com.decagon.springmvcsq019.models.Product;
 import com.decagon.springmvcsq019.repositories.ProductRepositories;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;

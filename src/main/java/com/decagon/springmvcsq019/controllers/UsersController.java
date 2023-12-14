@@ -32,9 +32,17 @@ public class UsersController {
 
     @GetMapping("/login")
     public ModelAndView loginPage(){
+
        return  new ModelAndView("login")
                .addObject("user", new UsersDTO());
     }
+    @GetMapping("/login-payment")
+    public ModelAndView loginPaymentPage(){
+
+        return  new ModelAndView("login1")
+                .addObject("user", new UsersDTO());
+    }
+
 
    @PostMapping("/sign-up")
     public String signUp(@ModelAttribute UsersDTO usersDTO){
@@ -44,7 +52,8 @@ public class UsersController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute UsersDTO usersDTO, HttpServletRequest request, Model model){
+    public String loginUser(@ModelAttribute UsersDTO usersDTO, @RequestParam(name = "cart") String something, HttpServletRequest request){
+        System.out.println(usersDTO);
         Users user = usersService.findUsersByUsername.apply(usersDTO.getUsername());
         log.info("User details ---> {}", user);
         if (usersService.verifyUserPassword
@@ -54,6 +63,9 @@ public class UsersController {
                         .build())){
             HttpSession session = request.getSession();
             session.setAttribute("userID", user.getId());
+            if (something!=null){
+                return "redirect:/products/all-cart";
+            }
             return "redirect:/products/all";
         }
         return "redirect:/user/login";
